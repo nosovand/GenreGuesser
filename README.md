@@ -1,25 +1,24 @@
 GenreGuesser README.md
-
+----------------------------------------
 This is a supervised learning program for classifying books’ genres based on their descriptions. It uses two different approaches: naive Bayes and neural network with back propagation learning algorithm.
 
 For more infrormation about the methods used to classify books in this program please see the INFO.txt file.
 
 ❗️  - important information\
 ++  - information about sub arguments
-----------------------------------------
 
-To compile this program change directory in your terminal to /Path/To/genreDetector and than use "make -f makefile.mk" command. The genreDetector program will be created.
+To compile this program change directory in your terminal to /Path/To/GenreGuesser and than use "make -f makefile.mk" command. The genreDetector program will be created.
 
 ❗️ Warning: since the word2vec dictionary used for neural network is very large (3.5 GB), only a preview version of that dictionary is part of this repository (/dataset/datasetsrc/wordvectors.txt). This means that training of new models and single tests are not possible
 
 The program accepts following arguments:
 
 ----------------------------------------
-1) "--newDataset"
+### "--newDataset"
 
 Use this argument, if you have a new dataset source file, which you want to use for training. 
 
-What it does: Program takes source files ("traindatasrc.txt/testdatasrc.txt) from dates/datasetsrc directory and creates new dataset file for faster access to needed information. Each book sample in the source file has to be in the following form:
+What it does: Program takes source files ("traindatasrc.txt/testdatasrc.txt) from dataset/datasetsrc directory and creates new dataset file for faster access to needed information. Each book sample in the source file has to be in the following form:
 
 ```
 <body>book's description text</body>
@@ -34,7 +33,7 @@ What it does: Program takes source files ("traindatasrc.txt/testdatasrc.txt) fro
 ❗️ Warning: at some point the program will need up to 4GB of RAM, so free your memory before using
 
 ----------------------------------------
-2) "--trainModel"
+### "--trainModel"
 
 ++ Use this argument if you want to train an already existing neural network model
 
@@ -55,7 +54,7 @@ Topology - this parameter looks like this: 100 20 10 7. Number of digits represe
 After the learning begins, after each epoch you will see an average error for this epoch and time needed for the computations.
 
 ----------------------------------------
-3) "--test"
+### "--test"
 
 Use this argument if you want to test how the learning methods perform on the new books's descriptions.
 

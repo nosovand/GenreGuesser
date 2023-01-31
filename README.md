@@ -1,11 +1,11 @@
 genreDetector README.md
 
-This is a supervised learning program for classifying books’ genres based on their descriptions. It is using two different approaches: naive Bayes and neural network with back propagation learning algorithm.
+This is a supervised learning program for classifying books’ genres based on their descriptions. It is using two different approaches: naive Bayes and neural network with back propagation learning algorithm.\
 
-For more infrormation about the methods used to classify books in this program please see the INFO.txt file.
+For more infrormation about the methods used to classify books in this program please see the INFO.txt file.\
 
-*    - important information
-++  - information about sub arguments
+*    - important information\
+++  - information about sub arguments\
 ----------------------------------------
 
 To compile this program change directory in your terminal to /Path/To/genreDetector and than use "make -f makefile.mk" command. The genreDetector program will be created.
@@ -15,17 +15,17 @@ To compile this program change directory in your terminal to /Path/To/genreDetec
 The program accepts following arguments:
 
 ----------------------------------------
-1) "--newDataset"
+1) "--newDataset"\
 
 Use this argument, if you have a new dataset source file, which you want to use for training. 
 
 What it does: Program takes source files ("traindatasrc.txt/testdatasrc.txt) from dates/datasetsrc directory and creates new dataset file for faster access to needed information. Each book sample in the source file has to be in the following form:
 
-//
-<body>book's description text</body>
-<topics>
-<d0>Genre1</d0><d0>Genre2</d0>
-</topics>
+//\
+<body>book's description text</body>\
+<topics>\
+<d0>Genre1</d0><d0>Genre2</d0>\
+</topics>\
 //
 
 ++ Depending on sub arguments "-test"/"-train", the program will create new test/train dataset. If no sub argument is used, both datasets will be created

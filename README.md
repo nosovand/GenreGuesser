@@ -1,96 +1,145 @@
-GenreGuesser README.md
-----------------------------------------
-This is a supervised learning program for classifying books’ genres based on their descriptions. It uses two different approaches: naive Bayes and neural network with back propagation learning algorithm.
+# GenreGuesser
 
-For more infrormation about the methods used to classify books in this program please see the INFO.txt file.
+A supervised learning program for classifying books’ genres based on their descriptions. It uses two different approaches:
 
-❗️  - important information\
-++  - information about sub arguments
+1. **Naive Bayes**  
+2. **Neural Network** (back propagation learning algorithm)
 
-To compile this program change directory in your terminal to /Path/To/GenreGuesser and than use "make -f makefile.mk" command. The genreDetector program will be created.
+For more information about the methods used to classify books in this program, please see the **INFO.txt** file.
 
-❗️ Warning: since the word2vec dictionary used for neural network is very large (3.5 GB), only a preview version of that dictionary is part of this repository (/dataset/datasetsrc/wordvectors.txt). This means that training of new models and single tests are not possible
+---
 
-The program accepts following arguments:
+## Important Notes
 
-----------------------------------------
-### "--newDataset"
+- **❗️** – Important information  
+- **++** – Information about sub-arguments  
 
-Use this argument, if you have a new dataset source file, which you want to use for training. 
+---
 
-What it does: Program takes source files ("traindatasrc.txt/testdatasrc.txt) from dataset/datasetsrc directory and creates new dataset file for faster access to needed information. Each book sample in the source file has to be in the following form:
+## Compilation
 
-```
-<body>book's description text</body>
-<topics>
-<d0>Genre1</d0><d0>Genre2</d0>
-</topics>
-```
+1. Open your terminal and change the directory to `Path/To/GenreGuesser`.
+2. Run:
+   ```bash
+   make -f makefile.mk
+   ```
+3. The resulting executable will be named **`genreDetector`**.
 
-++ Depending on sub arguments "-test"/"-train", the program will create new test/train dataset. If no sub argument is used, both datasets will be created
+**❗️ Warning:** The word2vec dictionary used for the Neural Network is very large (~3.5 GB). Only a preview version of that dictionary (located at `dataset/datasetsrc/wordvectors.txt`) is part of this repository. Because of this:
+- Training new models on your own data is **not** possible with the preview dictionary.
+- Single-text tests requiring the entire dictionary are also **not** possible.
 
-❗️ Warning: process of creating is relatively slow and can take up to several hours!\
-❗️ Warning: at some point the program will need up to 4GB of RAM, so free your memory before using
+---
 
-----------------------------------------
-### "--trainModel"
+## Program Arguments
 
-++ Use this argument if you want to train an already existing neural network model
+Below is a list of the arguments supported by `genreDetector` and their respective behaviors.
 
-You will be asked for the following inputs:
+### `--newDataset`
 
-Model's name - this is the model name you would like to train. Please type in the full name of the model. (Mostly the names are modelA_B_C.txt, where A_B_C represent the topology used).
+Use this argument if you have a new dataset source file and want to create a new train/test dataset from it.
 
-Learning rate - this parameter represents, how big steps will the learning algorithm be taking (typically used parameters are 0.1/0.01/0.001). For more information check LINKS section in INFO.txt file.
+#### What it does
 
-Momentum - this parameter represents, how big part of the previous learning step will be added to the new one (typically used parameters are bigger than 0.8). For more information check LINKS section in INFO.txt file.
+- Reads source files (`traindatasrc.txt` / `testdatasrc.txt`) from `dataset/datasetsrc/`.
+- Creates a new dataset file for faster access.
+- **Required format** for each book in the source file:
+  ```xml
+  <body>book's description text</body>
+  <topics>
+    <d0>Genre1</d0><d0>Genre2</d0>
+  </topics>
+  ```
 
-Size of batches - represents how many samples will be back propagated before the weights will be updated. (The bigger the batches, the less time will an epoch take, but the less accurate the result will be).
+#### Sub-Arguments
 
-++ If you want to create a new model, use sub argument "-new". You will be additionally asked for the model's topology.
+- **`-test`**  
+  Creates a new **test** dataset.
+- **`-train`**  
+  Creates a new **train** dataset.
+- **No sub-argument**  
+  Creates **both** train and test datasets.
 
-Topology - this parameter looks like this: 100 20 10 7. Number of digits represents number of neuron layers [4] and each digit represents number of neurons in this concrete layer (100 neurons in the first layer and 7 in the last one)
+#### Warnings
 
-After the learning begins, after each epoch you will see an average error for this epoch and time needed for the computations.
+- **❗️** Creating new datasets is **slow** and can take several hours.  
+- **❗️** Up to **4GB of RAM** might be required. Make sure you have sufficient memory before starting.
 
-----------------------------------------
-### "--test"
+---
 
-Use this argument if you want to test how the learning methods perform on the new books's descriptions.
+### `--trainModel`
 
-++ If you want to test both Bayes and neural network methods on the training dataset, use no sub arguments.
+Use this argument if you want to **train an existing Neural Network model**.
 
-In the result table you will see the following statistics table:
+#### Inputs Prompted
 
-BOOKS TESTED - number of books from the dataset, that were tested\
-TRUE POSITIVE - number of books, which genres were correctly determined\
-FALSE NEGATIVE - number of books, which were assigned two genres and only one of them was detected by the program\
-FALSE POSITIVE - the program incorrectly determined one or more genres
+1. **Model’s name**  
+   - The full name of the model (e.g., `modelA_B_C.txt`).
+2. **Learning rate**  
+   - Typical values: `0.1`, `0.01`, `0.001`.  
+   - See **INFO.txt** (LINKS section) for more details.
+3. **Momentum**  
+   - Typically greater than `0.8`.  
+   - Adds a fraction of the previous training step to the new one.  
+   - Also see **INFO.txt** (LINKS section).
+4. **Size of batches**  
+   - How many samples are back-propagated before the weights are updated.  
+   - Larger batches = fewer updates per epoch, but potentially less accuracy.
 
-F1 score - overall micro average score\
-AVG score - averaged F1 score for each genre
+#### Sub-Argument: `-new`
 
-Then the statistics for each genre follows containing the same parameters.
+- If you want to **create a new model** instead of training an existing one.  
+- You will be **additionally asked** for the model’s **topology**:  
+  - Example: `100 20 10 7`  
+  - The number of digits = number of neuron layers (4 layers in this example).  
+  - Each digit = number of neurons in that layer (100 in the first layer, 7 in the last layer).
 
-Notice, that the number of true positive, false negative and false positive samples in each genre don't sum up to the total number of books in that particular genre because of some samples being assigned to the multiple genres at once.
+#### Training Process
 
+- After training starts, you will see:  
+  - **Average error** per epoch  
+  - **Time** needed for the computations
 
-++ If you want to specifically test Bayes, use "-bayes" sub argument.
+---
 
-❗️ Because the training process is slow and the whole dataset can take hours, you will be asked for the number of books you want to test.
+### `--test`
 
-++ If you want to specifically test Network, use "-network" sub argument.
+Use this argument if you want to **test** the performance of the learning methods on book descriptions.
 
-++ If you want to test how the algorithms perform on your own texts, use "-single" sub argument.
+#### No Sub-Arguments
 
-❗️ Warning: these single tests will need the whole word-vector dictionary to be loaded into PC's RAM and will need 3,5GB of free memory (in case of the originally used word-vector dictionary)!
+- Tests **both** Bayes and Neural Network methods **on the training dataset**.  
+- **Result Table** will include:
 
+  - **BOOKS TESTED** – number of tested books  
+  - **TRUE POSITIVE** – number of books whose genres were correctly determined  
+  - **FALSE NEGATIVE** – books assigned two genres, but the program only detected one  
+  - **FALSE POSITIVE** – program incorrectly determined one or more genres  
+  - **F1 score** – overall micro-average score  
+  - **AVG score** – average F1 score across all genres
 
+- Statistics for each genre are also displayed, containing the same metrics.
 
+> **Note:** The sum of True Positives, False Negatives, and False Positives for each genre may not match the total number of books in that genre because some samples are assigned multiple genres.
 
+#### `-bayes`
 
+- Test **only** the Bayes method.  
+- **❗️** Because training is slow, you will be asked how many books you want to test.
 
+#### `-network`
 
+- Test **only** the Neural Network method.
 
+#### `-single`
 
+- Test the algorithms on **your own texts**.  
+- **❗️ Warning:** This requires loading the entire word-vector dictionary (~3.5 GB) into RAM, which is not included in this repository except for a small preview.
 
+---
+
+## Final Notes
+
+- For more details, including helpful links and deep-dives into methodology, please check the **INFO.txt** file.  
+- Make sure you have **enough disk space** (the word-vector file can be very large).  
+- Make sure you have **enough free RAM** if you attempt training or single-text tests with the full dictionary.
